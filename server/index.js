@@ -11,7 +11,7 @@ app.use(express.json());
 
 const words = []; // { id, word, userId }
 
-app.get("/api/words", (req, res) => {
+app.get("/words", (req, res) => {
   const { userId } = req.query;
 
   const filteredWords = userId ? words.filter(w => w.userId === userId) : words;
@@ -30,12 +30,12 @@ app.get("/api/words", (req, res) => {
   res.json(result);
 });
 
-app.post("/api/clear", (req, res) => {
+app.post("/clear", (req, res) => {
   words.length = 0;
   res.json({ success: true });
 })
 
-app.post("/api/words", (req, res) => {
+app.post("/words", (req, res) => {
   const { word, userId } = req.body;
   if (!word || !userId) {
     return res.status(400).json({ error: "Missing word or userId" });
@@ -51,7 +51,7 @@ app.post("/api/words", (req, res) => {
   res.status(201).json({ success: true, id });
 });
 
-app.delete("/api/words/:id", (req, res) => {
+app.delete("/words/:id", (req, res) => {
   const { id } = req.params;
   const index = words.findIndex(w => w.id === id);
   if (index === -1) return res.status(404).json({ error: "Word not found" });
