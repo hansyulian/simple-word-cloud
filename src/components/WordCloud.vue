@@ -35,7 +35,7 @@ const draw = (wordsData) => {
     .words(
       wordsData.map(d => ({
         text: d.text,
-        size: Math.sqrt(1000 + d.count * 100) // convert count to size
+        size: 30+d.count*10 // convert count to size
       }))
     )
     .padding(5)
@@ -59,7 +59,7 @@ const draw = (wordsData) => {
 
 // Watch for word updates and redraw
 watch(() => props.words, (newWords) => {
-  if (newWords?.length) draw(newWords)
+  draw(newWords)
 }, { immediate: true })
 
 // Re-render on resize

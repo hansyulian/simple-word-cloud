@@ -21,8 +21,9 @@ const qrUrl = `${location.origin}/input`
 
 const loadWords = async () => {
   const result = await request('get', `words`)
-  if (JSON.stringify(result) !== JSON.stringify(wordList.value)) {
-    wordList.value = result
+  const processedWords = result.map(w => ({ text: `${w.text} (${w.count})`, count: w.count }))
+  if (JSON.stringify(processedWords) !== JSON.stringify(wordList.value)) {
+    wordList.value = processedWords
   }
 }
 
