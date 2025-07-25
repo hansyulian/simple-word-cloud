@@ -53,13 +53,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useUserId } from '../composables/useUserId'
 import { request } from '../utils/request';
 
 const word = ref('');
 const userId = useUserId()
 const myWords = ref([]);
+const intervalRef = ref();
 
 const reloadMyWords = async () => {
   const result = await request('get',`words?userId=${userId}`);
@@ -69,7 +70,13 @@ const reloadMyWords = async () => {
 onMounted(() => {
   console.log('User ID:', userId);
   reloadMyWords();
+  intervalRef.value = setInterval(reloadMyWords,5000);
 })
+
+onUnmounted(()=>{
+  clearInterval(intervalRef.value);
+})
+
 
 const submitWord = async () => {
   if (!word.value) return;
